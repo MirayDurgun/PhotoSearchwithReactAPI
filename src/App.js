@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import "./App.css";
+import searchImages from "./api";
+import SearchHeader from "./SearchHeader";
+import { useState } from "react";
+import ImagesList from "./Components/ImageList";
 
 function App() {
+  const [images, setImages] = useState([]);
+  //async ve await çekme işleminin bitmesi için kullanılır
+
+  const handleSubmit = async (term) => {
+    //term buraya yazdığımız isim ne olursa olsun
+    //bir önceki child componentteki parametre değerine karşılık gelir
+
+    const result = await searchImages(term);
+    setImages(result);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchHeader search={handleSubmit} />
+      <ImagesList imagesPlaceholder={images} />
     </div>
   );
 }
